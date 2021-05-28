@@ -1,4 +1,4 @@
-package com.armanco.codern.data.model
+package com.armanco.codern.data.model.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,11 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Course(
     @PrimaryKey
-    val id: Long,
-
-    @ColumnInfo(name = "title")
-    val title: String? = null,
-
-    @ColumnInfo(name = "description")
+    val id: String,
+    val title: String,
     val description: String? = null
 )
