@@ -40,12 +40,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideAuth(): AuthFacade {
-        return AuthFacade()
-    }
-
-    @Singleton
-    @Provides
     fun provideDatabase(@ApplicationContext appContext: Context): Db {
         return Room.databaseBuilder(
             appContext,

@@ -1,5 +1,7 @@
 package com.armanco.codern.data.model.firestore
 
+import com.google.firebase.auth.FirebaseUser
+
 data class User(
     val userId: String,
     var name: String? = null,
@@ -29,5 +31,16 @@ data class User(
         const val EMAIL_VERIFIED = "emailVerified"
         const val PHONE_NUMBER = "phoneNumber"
         const val XP = "xp"
+
+        fun fromFirebaseUser(firebaseUser: FirebaseUser): User {
+            return User(
+                userId = firebaseUser.uid,
+                name = firebaseUser.displayName,
+                email = firebaseUser.email,
+                photoUrl = firebaseUser.photoUrl?.toString(),
+                emailVerified = firebaseUser.isEmailVerified,
+                phoneNumber = firebaseUser.phoneNumber
+            )
+        }
     }
 }

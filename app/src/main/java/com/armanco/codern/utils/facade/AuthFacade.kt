@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import java.lang.Exception
 
-class AuthFacade {
+object AuthFacade {
     fun goToAuth(activity: Activity) {
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(),
@@ -49,7 +49,15 @@ class AuthFacade {
         return Tasks.forException(response?.error ?: Exception())
     }
 
-    companion object {
-        const val AUTH_UI_CODE = 2000
-    }
+    val isLoggedIn: Boolean
+        get() {
+            return !FirebaseAuth.getInstance().currentUser?.uid.isNullOrBlank()
+        }
+
+    val user: FirebaseUser?
+        get() {
+            return FirebaseAuth.getInstance().currentUser
+        }
+
+    private const val AUTH_UI_CODE = 2000
 }

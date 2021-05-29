@@ -19,18 +19,16 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var authFacade: AuthFacade
-
     private lateinit var model: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = ViewModelProvider(this).get(MainViewModel::class.java)
         model.load()
-        authFacade.signOut(this)
-        authFacade.goToAuth(this)
-        model.user.observe(this) {
+        if(!AuthFacade.isLoggedIn) {
+            AuthFacade.goToAuth(this)
+        } else {
+            AuthFacade.user?.let { model.addUser(User.fromFirebaseUser(it)) }
         }
         setContent {
             CodernTheme {
@@ -43,19 +41,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        authFacade.onAuthResult(requestCode, resultCode, data)
+        AuthFacade.onAuthResult(requestCode, resultCode, data)
             .addOnSuccessListener {
-                it.providerData
-                model.addUser(
-                    User(
-                    userId = it.uid,
-                    name = it.displayName,
-                    email = it.email,
-                    photoUrl = it.photoUrl?.toString(),
-                    emailVerified = it.isEmailVerified,
-                    phoneNumber = it.phoneNumber
-                )
-                )
+                model.addUser(User.fromFirebaseUser(it))
             }
             .addOnFailureListener {
                 log(it.message)
