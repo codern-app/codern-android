@@ -3,6 +3,7 @@ package com.armanco.codern.di
 import android.content.Context
 import androidx.room.Room
 import com.armanco.codern.data.db.Db
+import com.armanco.codern.utils.facade.AuthFacade
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -35,6 +36,12 @@ object AppModule {
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
         return remoteConfig
+    }
+
+    @Singleton
+    @Provides
+    fun provideAuth(): AuthFacade {
+        return AuthFacade()
     }
 
     @Singleton
