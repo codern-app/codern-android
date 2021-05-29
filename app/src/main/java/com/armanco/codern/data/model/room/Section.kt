@@ -1,16 +1,16 @@
-package com.armanco.codern.data.model.entity
+package com.armanco.codern.data.model.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Lesson(
+data class Section(
     @PrimaryKey
     val id: String,
 
-    @ColumnInfo(name = "section_id", index = true)
-    val sectionId: String,
+    @ColumnInfo(name = "course_id", index = true)
+    val courseId: String,
 
     @ColumnInfo(name = "order_num", index = true)
     val orderNum: Int = 0,

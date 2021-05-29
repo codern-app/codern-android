@@ -3,7 +3,7 @@ package com.armanco.codern.data.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.armanco.codern.data.db.dao.*
-import com.armanco.codern.data.model.entity.*
+import com.armanco.codern.data.model.room.*
 
 @Database(
     entities = [

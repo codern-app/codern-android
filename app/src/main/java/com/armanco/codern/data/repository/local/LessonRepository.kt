@@ -1,12 +1,12 @@
-package com.armanco.codern.data.repository
+package com.armanco.codern.data.repository.local
 
 import com.armanco.codern.data.db.dao.LessonDao
-import com.armanco.codern.data.model.entity.Lesson
+import com.armanco.codern.data.model.room.Lesson
 import javax.inject.Inject
 
 class LessonRepository @Inject constructor(
     private val lessonDao: LessonDao
-): Repository<Lesson> {
+): DaoInterface<Lesson> {
     override suspend fun getAll() = lessonDao.getAll()
     override suspend fun getById(id: String) = lessonDao.getById(id)
     suspend fun getByParent(parentId: String) = lessonDao.getByParent(parentId)

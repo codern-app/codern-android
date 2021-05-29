@@ -1,4 +1,4 @@
-package com.armanco.codern.data.model.entity
+package com.armanco.codern.data.model.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

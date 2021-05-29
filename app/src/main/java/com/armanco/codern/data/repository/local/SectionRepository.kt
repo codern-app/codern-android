@@ -1,13 +1,13 @@
-package com.armanco.codern.data.repository
+package com.armanco.codern.data.repository.local
 
 import com.armanco.codern.data.db.dao.SectionDao
 import com.armanco.codern.data.db.populate.data.sections.Sections
-import com.armanco.codern.data.model.entity.Section
+import com.armanco.codern.data.model.room.Section
 import javax.inject.Inject
 
 class SectionRepository @Inject constructor(
     private val sectionDao: SectionDao
-): Repository<Section> {
+): DaoInterface<Section> {
     override suspend fun getAll() = sectionDao.getAll()
     override suspend fun getById(id: String) = sectionDao.getById(id)
     suspend fun getByParent(parentId: String) = sectionDao.getByParent(parentId)
