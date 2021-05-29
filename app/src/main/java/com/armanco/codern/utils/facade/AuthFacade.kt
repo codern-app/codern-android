@@ -1,0 +1,55 @@
+package com.armanco.codern.utils.facade
+
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import com.armanco.codern.R
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.IdpResponse
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import java.lang.Exception
+
+class AuthFacade {
+    fun goToAuth(activity: Activity) {
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.PhoneBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build())
+
+        activity.startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .setLogo(R.mipmap.ic_launcher)
+                .setTheme(R.style.Theme_Codern)
+                .build(),
+            AUTH_UI_CODE)
+    }
+
+    fun signOut(context: Context): Task<Void> {
+        return AuthUI.getInstance()
+            .signOut(context)
+    }
+
+    fun deleteAccount(context: Context): Task<Void> {
+        return AuthUI.getInstance()
+            .delete(context)
+    }
+
+    fun onAuthResult(requestCode: Int, resultCode: Int, data: Intent?): Task<FirebaseUser> {
+        if (requestCode == AUTH_UI_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                return Tasks.forResult(FirebaseAuth.getInstance().currentUser)
+            }
+        }
+        val response = IdpResponse.fromResultIntent(data)
+        return Tasks.forException(response?.error ?: Exception())
+    }
+
+    companion object {
+        const val AUTH_UI_CODE = 2000
+    }
+}
