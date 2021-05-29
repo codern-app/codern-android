@@ -1,6 +1,6 @@
-package com.armanco.codern.data.repository
+package com.armanco.codern.data.repository.local
 
-interface Repository<E> {
+interface DaoInterface<E> {
     suspend fun getAll(): List<E>
     suspend fun getById(id: String): E
     suspend fun insertAll(vararg items: E)

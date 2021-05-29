@@ -1,7 +1,7 @@
 package com.armanco.codern.data.db.dao
 
 import androidx.room.*
-import com.armanco.codern.data.model.entity.Article
+import com.armanco.codern.data.model.room.Article
 
 @Dao
 interface ArticleDao {

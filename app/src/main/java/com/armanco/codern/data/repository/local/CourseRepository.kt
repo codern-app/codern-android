@@ -1,13 +1,13 @@
-package com.armanco.codern.data.repository
+package com.armanco.codern.data.repository.local
 
 import com.armanco.codern.data.db.dao.CourseDao
 import com.armanco.codern.data.db.populate.data.courses.Courses
-import com.armanco.codern.data.model.entity.Course
+import com.armanco.codern.data.model.room.Course
 import javax.inject.Inject
 
 class CourseRepository @Inject constructor(
     private val courseDao: CourseDao
-): Repository<Course> {
+): DaoInterface<Course> {
     override suspend fun getAll() = courseDao.getAll()
     override suspend fun getById(id: String) = courseDao.getById(id)
     override suspend fun insertAll(vararg items: Course) = courseDao.insertAll(*items)
