@@ -1,6 +1,5 @@
-package com.armanco.codern.ui
+package com.armanco.codern.ui.activity.splash
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,37 +9,39 @@ import com.armanco.codern.data.repository.local.CourseRepository
 import com.armanco.codern.data.repository.local.SectionRepository
 import com.armanco.codern.data.repository.remote.ProgressRepository
 import com.armanco.codern.data.repository.remote.UserRepository
+import com.armanco.codern.utils.facade.AuthFacade
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class SplashViewModel @Inject constructor(
     private val courseRepository: CourseRepository,
     private val sectionRepository: SectionRepository,
     private val userRepository: UserRepository,
     private val progressRepository: ProgressRepository,
 ): ViewModel() {
     val user = MutableLiveData<User>()
+    val isReady = MutableLiveData(false)
 
-    fun load() {
+    fun onCreate() {
         viewModelScope.launch {
-            courseRepository.deleteAll()
-            courseRepository.populate()
-            sectionRepository.deleteAll()
-            sectionRepository.populate()
-            Log.d("test", courseRepository.getAll().getOrNull(0)?.title.orEmpty())
+            isReady.postValue(false)
+            populate()
+            isReady.postValue(true)
         }
     }
 
-    fun addUser(user: User) {
+    private suspend fun populate() {
+        courseRepository.deleteAll()
+        courseRepository.populate()
+        sectionRepository.deleteAll()
+        sectionRepository.populate()
+    }
+
+    fun updateUser(user: User) {
         this.user.postValue(user)
         userRepository.set(user)
-        progressRepository.set(user.userId, Progress(
-            courseId = "html",
-            startDate = Timestamp.now(),
-        )
-        )
     }
 }

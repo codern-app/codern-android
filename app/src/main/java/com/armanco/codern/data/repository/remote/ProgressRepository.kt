@@ -10,6 +10,12 @@ import javax.inject.Inject
 class ProgressRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
+    fun add(userId: String, courseId: String): Task<Void> {
+        return firestore.collection(UserRepository.COLLECTION).document(userId)
+            .collection(COLLECTION).document(courseId)
+            .set(mapOf<String, String>(), SetOptions.merge())
+    }
+
     fun set(userId: String, progress: Progress): Task<Void> {
         return firestore.collection(UserRepository.COLLECTION).document(userId)
             .collection(COLLECTION).document(progress.courseId)
